@@ -26,6 +26,7 @@ public class MD5HashProvider implements PasswordHashProvider {
 
 	@Override
 	public PasswordCredentialModel encodedCredential(String rawPassword, int iterations) {
+		// not updated with salt functionality, as there are now new passwords created with MD5
 		String encodedPassword = this.encode(rawPassword, iterations);
 		return PasswordCredentialModel.createFromValues(this.providerId, new byte[0], iterations, encodedPassword);
 	}
