@@ -32,7 +32,11 @@ public class MD5HashProvider implements PasswordHashProvider {
 
 	@Override
 	public boolean verify(String rawPassword, PasswordCredentialModel credential) {
-		String encodedPassword = this.encode(rawPassword, credential.getPasswordCredentialData().getHashIterations());
+		byte[] saltBytes = credential.getPasswordSecretData().getSalt();
+    	String salt = (saltBytes != null) ? new String(saltBytes) : "";
+        String saltedPassword = salt + rawPassword;
+		
+		String encodedPassword = this.encode(saltedPassword, credential.getPasswordCredentialData().getHashIterations());
 		String hash = credential.getPasswordSecretData().getValue();
 		return encodedPassword.equals(hash);
 	}
